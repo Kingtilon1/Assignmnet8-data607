@@ -1,8 +1,8 @@
 ---
 title: "assignment8"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 date: "2023-10-29"
 ---
 
@@ -15,6 +15,8 @@ knitr::opts_chunk$set(echo = TRUE)
 # Load the readr package
 library(readr)
 library(tidyverse)
+
+library(ggplot2)  # Load ggplot2 for visualization
 theUrl <- "https://raw.githubusercontent.com/Kingtilon1/Assignmnet8-data607/main/1_lebron_james_shot_chart_1_2023.csv"
 lebron <- read_csv(theUrl)
 ```
@@ -72,14 +74,15 @@ lebron_filtered <- filter(lebron, lebron$result == "TRUE")
 
 # Task 3: Create New Variables
 lebron$ScoreDifference <- lebron$lebron_team_score - lebron$opponent_team_score
+```
 
+```{r}
 ## grouping functions , dplyr package
-lebron_summary <- lebron_filtered %>%
+lebron_summary <- lebron %>%
   group_by(qtr) %>%
   summarise(average_score = mean(ScoreDifference, na.rm = TRUE))
 
 # Task 5: Visualize Data
-library(ggplot2)  # Load ggplot2 for visualization
 ggplot(data = lebron_filtered, aes(x = left, y = top, color = qtr)) +
   geom_point() +
   labs(title = "LeBron James Shot Distribution by Quarter")
